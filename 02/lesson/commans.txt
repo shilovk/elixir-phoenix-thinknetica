@@ -1,0 +1,27 @@
+Process.alive? pid
+Node.self
+iex --sname n1
+iex --sname n2
+Node.list
+Node.self
+Node.connect :"n2@MacBook-Air-User"
+Node.connect :"n1@MacBook-Air-User"
+c "m.ex"
+Process.send {M, :"n2@MacBook-Air-User"}, :ok, []
+Node.disconnect :"n2@MacBook-Air-User"
+Node.connect :"n2@MacBook-Air-User"
+Node.list
+M.start_link
+Node.spawn :"n1@MacBook-Air-User", M, :node_name, []
+h File.cwd
+iex --name n1@127.0.0.1
+iex --name n2@127.0.0.1
+Node.connect :"n1@127.0.0.1"
+Node.spawn :"n1@127.0.0.1", M, :node_name, []
+Node.spawn :"n2@127.0.0.1", fn -> receive(do: (:ok -> IO.puts("OK"))) end
+pid = v()
+send pid, :ok
+iex --name remote@127.0.0.1 --remsh n1@127.0.0.1
+M.pwd
+cat ~/.erlang.cookie
+iex --name remote@127.0.0.1 --remsh n1@127.0.0.1 --cookie KNJXFPMBHMNUXWESCQPT%
